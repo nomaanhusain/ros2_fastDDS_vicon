@@ -5,7 +5,7 @@ This guide explains how to configure Fast DDS Discovery Server to allow ROS topi
 
 To make ROS 2 topics visible across machines:
 <ul>
-<li>A central Discovery Server must be launched on one machine. Called here the FastDDS-server machine</li>
+<li>A central Discovery Server must be launched on one machine. Called here the Fast DDS-server machine</li>
 <li>Each machine must point to this server using the <em>ROS_DISCOVERY_SERVER</em> variable.</li>
 </ul>
 A setup script can simplify the configuration for each machine.
@@ -21,17 +21,17 @@ export ROS_DISCOVERY_SERVER=<DISCOVERY_SERVER_IP>
 export ROS_SUPER_CLIENT=True
 ```
 
-- On the **FastDDS‐server machine** (the host you want to run the discovery server on):
+- On the **Fast DDS‐server machine** (the host you want to run the discovery server on):
     - Use `127.0.0.1:11811` (localhost) for `<DISCOVERY_SERVER_IP>`.
     - Keep this copy on the server machine only.
     - Get the IP address of this machine for the next steps. You could use `ifconfig`, `ipconfig` or `ip a` to find it.
 
 - On the **other (client) machines**, have a client-variant of the script:
-    - Replace `<DISCOVERY_SERVER_IP>` with the FastDDS‐server machine's IP address (e.g. 192.168.1.42).
+    - Replace `<DISCOVERY_SERVER_IP>` with the Fast DDS‐server machine's IP address (e.g. 192.168.1.42).
 
 Note: If any topics are created by the server machine itself, they will be visible across the network given that the setup script (host variant) was sourced before starting the node.
 
-As an **example**, suppose the IP address of the FastDDS-server machine is `192.168.1.42`, then:
+As an **example**, suppose the IP address of the Fast DDS-server machine is `192.168.1.42`, then:
 - On the server machine the script looks like:
     ```bash
     export RMW_IMPLEMENTATION=rmw_fastrtps_cpp

@@ -11,13 +11,13 @@ It is assumed that **ROS 2 is installed on all machines except for the Vicon PC*
 
 ## Prerequisites
 
-### FastDDS
+### Running Fast DDS server
 Ensure the Fast DDS Discovery Server is running, as explained in the Fast DDS setup guide. All participating machines should source the setup script pointing to the discovery server. The Vicon PC would be a Windows PC and doesn't need to source this script.
 
 ## Setup Instructions
 
 ### Step 1: Clone and Build the Vicon Receiver Package
-On the machine hosting the FastDDS server, in a seprate terminal, clone and build the ROS 2 Vicon receiver package based on the version of ROS 2 installed. It is compatible with ROS 2 Dashing, Foxy, Galactic and Humble. Here is the example with ROS 2 Humble:
+On the machine hosting the Fast DDS server, in a seprate terminal, clone and build the ROS 2 Vicon receiver package based on the version of ROS 2 installed. It is compatible with ROS 2 Dashing, Foxy, Galactic and Humble. Here is the example with ROS 2 Humble:
 ```bash
 cd ~/
 git clone -b humble https://github.com/einstein07/ros2-vicon-receiver.git
