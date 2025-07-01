@@ -4,7 +4,7 @@
 This guide explains how to receive live motion‑capture data from a Vicon system in ROS 2 over a network using Fast DDS. The setup involves two machines:
 <ul>
 <li>The <strong>Vicon PC</strong>, which is running the Vicon System and is configured to publish motion capture data.</li>
-<li>The <strong>Host machine</strong>, which receives this data using the <a ref="https://github.com/einstein07/ros2-vicon-receiver">ros2-vicon-receiver</a> package and creates ROS topics that allows other machines to consume the tracking data.</li>
+<li>The <strong>host machine</strong>, which receives this data using the <a ref="https://github.com/einstein07/ros2-vicon-receiver">ros2-vicon-receiver</a> package and creates ROS topics that allows other machines to consume the tracking data.</li>
 </ul>
 
 It is assumed that **ROS 2 is installed on all machines except for the Vicon PC**
@@ -12,24 +12,12 @@ It is assumed that **ROS 2 is installed on all machines except for the Vicon PC*
 ## Prerequisites
 
 ### FastDDS
-Ensure the Fast DDS Discovery Server is running, as explained in the Fast DDS setup guide. All participating machines should source the setup script pointing to the discovery server. The Vicon PC itself doesnt need to source this script.
+Ensure the Fast DDS Discovery Server is running, as explained in the Fast DDS setup guide. All participating machines should source the setup script pointing to the discovery server. The Vicon PC would be a Windows PC and doesn't need to source this script.
 
-<!-- ### Custom Message Type
-The messages received through the Vicon system is of a custom type. You need to have the support for this in your workspace using the <a ref="https://github.com/einstein07/vicon_interfaces">ros2_interfaces</a> package.
-
-Suppose your ROS 2 workspace folder is called `ros2_ws`, then:
-
-```bash
-cd ~/ros2_ws/src
-git clone https://github.com/einstein07/vicon_interfaces.git
-cd ~/ros2_ws
-colcon build
-source install/setup.bash
-``` -->
 ## Setup Instructions
 
 ### Step 1: Clone and Build the Vicon Receiver Package
-On machine hosting the FastDDS server, in a seprate terminal, clone and build the ROS 2 Vicon receiver package based on the version of ROS 2 installed. It is compatible with ROS 2 Dashing, Foxy, Galactic and Humble. Here is the example with ROS 2 Humble:
+On the machine hosting the FastDDS server, in a seprate terminal, clone and build the ROS 2 Vicon receiver package based on the version of ROS 2 installed. It is compatible with ROS 2 Dashing, Foxy, Galactic and Humble. Here is the example with ROS 2 Humble:
 ```bash
 cd ~/
 git clone -b humble https://github.com/einstein07/ros2-vicon-receiver.git
@@ -41,11 +29,11 @@ colcon build
 Find the IP address of the Vicon PC by running <em>ipconfig</em> (on Windows), and update the Vicon receiver launch file on the host machine accordingly:
 
 - Open: `~/ros2-vicon-receiver/vicon_receiver/launch/client.launch.py`.
-- Replace the placeholder IP in the `hostname` variable with the IP of the PC running the Vicon system. (e.g., `hostname = '192.168.3.3'`)
+- Replace the placeholder IP in the `hostname` variable with the IP address of the PC running the Vicon system. (e.g., `hostname = '192.168.3.3'`)
 
 
 ### Step 3: Launch the Vicon Receiver
-Source the setup script (created during the Fast DDS discovery guide), source the Vicon receiver build, and launch the Vicon receiver:
+Source the setup script (created during the Fast DDS discovery guide), the Vicon receiver build, and launch the Vicon receiver:
 ```bash
 source ~/setup-ros2-discovery.sh
 source install/setup.bash
@@ -99,6 +87,21 @@ class ExampleNode(Node):
         else:
             self.timer_ = self.timer_ + 1
 
+```
+
+## Troubleshooting
+
+### Custom Message Type
+The messages received through the Vicon system are of a custom type. If you run into type erorrs, you may need to have the support for this in your workspace using the <a ref="https://github.com/einstein07/vicon_interfaces">ros2_interfaces</a> package.
+
+Suppose your ROS 2 workspace folder is called `ros2_ws`, then:
+
+```bash
+cd ~/ros2_ws/src
+git clone https://github.com/einstein07/vicon_interfaces.git
+cd ~/ros2_ws
+colcon build
+source install/setup.bash
 ```
 
 ## Conclusion
