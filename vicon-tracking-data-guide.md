@@ -4,7 +4,7 @@
 This guide explains how to receive live motion‑capture data from a Vicon system in ROS 2 over a network using Fast DDS. The setup involves two machines:
 <ul>
 <li>The <strong>Vicon PC</strong>, which is running the Vicon System and is configured to publish motion capture data.</li>
-<li>The <strong>Receiver PC/s</strong>, which receives this data using the <a ref="https://github.com/einstein07/ros2-vicon-receiver">ros2-vicon-receiver</a> package</li>
+<li>The <strong>Host machine</strong>, which receives this data using the <a ref="https://github.com/einstein07/ros2-vicon-receiver">ros2-vicon-receiver</a> package and creates ROS topics that allows other machines to consume the tracking data.</li>
 </ul>
 
 It is assumed that **ROS 2 is installed on all machines except for the Vicon PC**
@@ -29,7 +29,7 @@ source install/setup.bash
 ## Setup Instructions
 
 ### Step 1: Clone and Build the Vicon Receiver Package
-On machine hosting the FastDDS server, in a seprate terminal, clone and build the ROS 2 Vicon receiver package based on the version of ROS 2 installed. Here is the example with ROS 2 Humble:
+On machine hosting the FastDDS server, in a seprate terminal, clone and build the ROS 2 Vicon receiver package based on the version of ROS 2 installed. It is compatible with ROS 2 Dashing, Foxy, Galactic and Humble. Here is the example with ROS 2 Humble:
 ```bash
 cd ~/
 git clone -b humble https://github.com/einstein07/ros2-vicon-receiver.git
@@ -38,7 +38,7 @@ colcon build
 ```
 
 ### Step 2: Configure the IP Address
-Find the IP address of the Vicon PC by running <em>ipconfig</em> (on Windows), and update the Vicon receiver launch file accordingly:
+Find the IP address of the Vicon PC by running <em>ipconfig</em> (on Windows), and update the Vicon receiver launch file on the host machine accordingly:
 
 - Open: `~/ros2-vicon-receiver/vicon_receiver/launch/client.launch.py`.
 - Replace the placeholder IP in the `hostname` variable with the IP of the PC running the Vicon system. (e.g., `hostname = '192.168.3.3'`)
@@ -51,7 +51,7 @@ source ~/setup-ros2-discovery.sh
 source install/setup.bash
 ros2 launch vicon_receiver client.launch.py
 ```
-(Here, we suppose that `setup-ros2-discovery.sh` was created in the home directory)
+(Here, we suppose that `setup-ros2-discovery.sh` is in the home directory)
 
 ### Step 4: Verify Topics
 Open a new terminal, source the Fast DDS setup script, and list topics:

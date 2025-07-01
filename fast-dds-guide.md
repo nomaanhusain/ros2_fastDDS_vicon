@@ -5,15 +5,15 @@ This guide explains how to configure Fast DDS Discovery Server to allow ROS topi
 
 To make ROS 2 topics visible across machines:
 <ul>
-<li>A central Discovery Server must be launched on one machine. This is the FastDDS-server machine</li>
-<li>Each participating device must point to this server using the <em>ROS_DISCOVERY_SERVER</em> environment variable.</li>
+<li>A central Discovery Server must be launched on one machine. Called here the FastDDS-server machine</li>
+<li>Each machine must point to this server using the <em>ROS_DISCOVERY_SERVER</em> environment variable.</li>
 </ul>
 A setup script can simplify the configuration for each machine.
 
 ## Setup Instructions
 ### Step 1: Create the Setup Scripts
 
-Let's create the script ```setup-ros2-discovery.sh```. You’ll create two variants of the this script, differing only in the value of  ```ROS_DISCOVERY_SERVER```. The content of the script is like:
+Let's create the script ```setup-ros2-discovery.sh```(also included in the repository). You’ll need two variants of the this script: one for the server machine and  another for all other machines. The only difference between them is the value assigned to ```ROS_DISCOVERY_SERVER```. The script contents are as follows:
 
 ```bash
 export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
@@ -24,15 +24,14 @@ export ROS_SUPER_CLIENT=True
 - On the **FastDDS‐server machine** (the host you want to run the discovery server on):
     - Use `127.0.0.1:11811` (localhost) for `<DISCOVERY_SERVER_IP>`.
     - Keep this copy on the server machine only.
-    - Get the IP of this machine for the next steps. You could use `ifconfig`, `ipconfig` or `ip a` to find it.
+    - Get the IP address of this machine for the next steps. You could use `ifconfig`, `ipconfig` or `ip a` to find it.
 
-- On **every other (client) machine** that will join the network:
-    - Replace `<DISCOVERY_SERVER_IP>` with the FastDDS‐server machine's IP (e.g. 192.168.1.42).
-    - Copy this client-variant of the script to each machine that needs to discover/create ROS topics.
+- On **every other (client) machine**, have a client-variant of the script:
+    - Replace `<DISCOVERY_SERVER_IP>` with the FastDDS‐server machine's IP address (e.g. 192.168.1.42).
 
-Note: If any topics are created by the server machine, they will be also visible across the network.
+Note: If any topics are created by the server machine itself, they will be visible across the network given that the setup script (host variant) was sourced before starting the node.
 
-As an **example**, suppose the IP of the FastDDS-server machine is `192.168.1.42`, then:
+As an **example**, suppose the IP address of the FastDDS-server machine is `192.168.1.42`, then:
 - On the server machine the script looks like:
     ```bash
     export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
@@ -48,13 +47,13 @@ As an **example**, suppose the IP of the FastDDS-server machine is `192.168.1.42
 
 ### Step 2: Start the Fast DDS Discovery Server
 
-On the **server machine**, open a new terminal and run:
+On the **server machine**, open a new terminal and:
 ```bash
 source setup-ros2-discovery.sh # loads the server variant setup script
 fastdds discovery --server-id 0 # starts the discovery service
 ```
 
-**Note**: Any time you open a new terminal on this machine, re-run the source command before running any ROS 2 nodes.
+**Note**: Any time you open a new terminal, re-run the source command before running any ROS 2 commands.
 
 ### Step 3: Source the Setup Script on Clients
 
@@ -81,7 +80,7 @@ Now:
 
 2. Make sure the firewall is not blocking port <em>11811</em> on the server machine, if so, use another port.
 
-3. Ensure the setup script is sourced in all terminals before using ROS 2 commands.
+3. Ensure the setup script is sourced in the terminal before using ROS 2 commands.
 
 <!-- ## Custom Interface
 
@@ -95,5 +94,5 @@ source install/setup.bash
 Failing to source custom interfaces may lead to type errors. -->
 
 ## Conclusion
-This setup allows ROS 2 nodes across different machines to communicate through a central Fast DDS Discovery Server.
+This setup allows ROS 2 nodes on different machines to communicate through a central Fast DDS Discovery Server by making ROS topics discoverable.
 
