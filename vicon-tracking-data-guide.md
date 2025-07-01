@@ -2,10 +2,9 @@
 
 ## Introduction
 This guide explains how to receive live motion‑capture data from a Vicon system in ROS 2 over a network using Fast DDS. The setup involves two machines:
-<ul>
-<li>The <strong>Vicon PC</strong>, which is running the Vicon System and is configured to publish motion capture data.</li>
-<li>The <strong>host machine</strong>, which receives this data using the <a ref="https://github.com/einstein07/ros2-vicon-receiver">ros2-vicon-receiver</a> package and creates ROS topics that allows other machines to consume the tracking data.</li>
-</ul>
+
+- The <strong>Vicon PC</strong>, which is running the Vicon System and is configured to publish motion capture data.</li>
+- The <strong>host machine</strong>, which receives this data using the [ros2-vicon-receiver](https://github.com/einstein07/ros2-vicon-receiver) package and creates ROS topics that allows other machines to consume the tracking data.
 
 It is assumed that **ROS 2 is installed on all machines except for the Vicon PC**
 
@@ -92,7 +91,7 @@ class ExampleNode(Node):
 ## Troubleshooting
 
 ### Custom Message Type
-The messages received through the Vicon system are of a custom type. If you run into type erorrs, you may need to have the support for this in your workspace using the <a ref="https://github.com/einstein07/vicon_interfaces">ros2_interfaces</a> package.
+The messages received through the Vicon system are of a custom type. If you run into type erorrs, you may need to have the support for this in your workspace using the [ros2_interfaces](https://github.com/einstein07/vicon_interfaces) package.
 
 Suppose your ROS 2 workspace folder is called `ros2_ws`, then:
 
