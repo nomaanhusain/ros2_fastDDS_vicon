@@ -69,22 +69,16 @@ class ExampleNode(Node):
             self.vicon_callback,
             10
         )
-        self.timer_ = 0
         self.my_id = "id0"
         self.my_position = None
     def vicon_callback(self, msg):
-        if self.timer_ % 1 == 0:
-            for i in range(msg.n):
-                if msg.positions[i].subject_name == self.my_id:
-                    print('Id = %s' % self.my_id)
-                    self.my_position = msg.positions[i]
-                    break
-            print(self.my_position)
-
-            self.timer_ = 0
-            print('done')
-        else:
-            self.timer_ = self.timer_ + 1
+        for i in range(msg.n):
+            if msg.positions[i].subject_name == self.my_id:
+                print('Id = %s' % self.my_id)
+                self.my_position = msg.positions[i]
+                break
+        print(self.my_position)
+        print('done')
 
 ```
 
