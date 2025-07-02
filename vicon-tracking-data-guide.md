@@ -32,7 +32,7 @@ Find the IP address of the Vicon PC by running <em>ipconfig</em> (on Windows), a
 
 
 ### Step 3: Launch the Vicon Receiver
-Source the setup script (created during the Fast DDS discovery guide), the Vicon receiver build, and launch the Vicon receiver:
+Source the setup script (created during the [Fast DDS discovery guide](/fast-dds-guide.md)), the Vicon receiver build, and launch the Vicon receiver:
 ```bash
 source ~/setup-ros2-discovery.sh
 source install/setup.bash
